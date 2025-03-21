@@ -14,7 +14,7 @@ A Firefox extension that helps you manage browser performance and organization b
 
 ### From Firefox Add-ons (AMO)
 
-1. Visit the [Tab Limiter page on Firefox Add-ons](https://addons.mozilla.org/en-US/firefox/addon/tab-limiter/)
+1. Visit the [Tab Limiter page on Firefox Add-ons](https://example.com/)
 2. Click "Add to Firefox"
 3. Follow the prompts to install
 
