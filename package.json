@@ -1,0 +1,27 @@
+{
+  "name": "tab-limiter",
+  "version": "1.0.0",
+  "description": "Firefox extension that limits the number of tabs open in each window",
+  "author": "Your Name",
+  "license": "MPL-2.0",
+  "private": true,
+  "scripts": {
+    "build": "web-ext build",
+    "lint": "web-ext lint",
+    "start": "web-ext run"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/tab-limiter"
+  },
+  "keywords": [
+    "firefox",
+    "extension",
+    "addon",
+    "tabs",
+    "productivity"
+  ],
+  "devDependencies": {
+    "web-ext": "^7.0.0"
+  }
+} 

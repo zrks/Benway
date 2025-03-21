@@ -1,0 +1,14 @@
+# Build artifacts
+web-ext-artifacts/
+*.zip
+
+# Node
+node_modules/
+npm-debug.log
+
+# IDE and editor files
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store 

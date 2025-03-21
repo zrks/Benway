@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="512" height="512" rx="102.4" fill="#0060DF"/>
+  
+  <!-- Center white area (browser window) -->
+  <rect x="96" y="144" width="320" height="224" rx="16" fill="white"/>
+  
+  <!-- Tabs -->
+  <rect x="112" y="128" width="80" height="32" rx="8" fill="white"/>
+  <rect x="200" y="128" width="80" height="32" rx="8" fill="white"/>
+  <rect x="288" y="128" width="80" height="32" rx="8" fill="white"/>
+  
+  <!-- Red limit bar -->
+  <rect x="376" y="128" width="16" height="32" rx="2" fill="#FF4F5E"/>
+  
+  <!-- Number 3 for tab limit -->
+  <text x="240" y="296" font-family="Arial, sans-serif" font-size="160" text-anchor="middle" font-weight="bold" fill="#0060DF">3</text>
+</svg> 

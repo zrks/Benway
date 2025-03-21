@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Tab Limiter - Options</title>
+    <style>
+      body {
+        font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+        color: #0c0c0d;
+      }
+      header {
+        margin-bottom: 30px;
+        border-bottom: 1px solid #ededf0;
+        padding-bottom: 15px;
+      }
+      h1 {
+        color: #0060df;
+        font-size: 28px;
+        font-weight: 500;
+        margin-bottom: 0;
+      }
+      .subtitle {
+        color: #737373;
+        margin-top: 5px;
+      }
+      .form-group {
+        margin-bottom: 20px;
+        padding: 20px;
+        background-color: #f9f9fa;
+        border-radius: 4px;
+        border: 1px solid #ededf0;
+      }
+      .setting-title {
+        font-weight: 500;
+        font-size: 18px;
+        margin-bottom: 10px;
+        color: #0c0c0d;
+      }
+      .setting-description {
+        margin-bottom: 15px;
+        color: #4a4a4f;
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+      input {
+        padding: 8px 10px;
+        font-size: 1em;
+        width: 80px;
+        border: 1px solid #b1b1b3;
+        border-radius: 2px;
+      }
+      input:focus {
+        border-color: #0a84ff;
+        box-shadow: 0 0 0 1px #0a84ff, 0 0 0 4px rgba(10, 132, 255, 0.3);
+        outline: none;
+      }
+      button {
+        background-color: #0060df;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-size: 1em;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.15s;
+      }
+      button:hover {
+        background-color: #003eaa;
+      }
+      button:active {
+        background-color: #002275;
+      }
+      #status {
+        margin-top: 15px;
+        padding: 12px;
+        font-weight: 500;
+        color: #058b00;
+        background-color: #e3fff3;
+        border-radius: 4px;
+        display: none;
+      }
+      .error {
+        color: #d70022 !important;
+        background-color: #ffdfe7 !important;
+      }
+      .tips-section {
+        margin-top: 40px;
+        padding: 20px;
+        border-radius: 4px;
+        background-color: #f0f9ff;
+        border: 1px solid #aecdf3;
+      }
+      .tips-section h2 {
+        color: #0060df;
+        margin-top: 0;
+        font-size: 20px;
+      }
+      .tip {
+        margin-bottom: 15px;
+      }
+      .tip-title {
+        font-weight: 500;
+        margin-bottom: 5px;
+      }
+      footer {
+        margin-top: 40px;
+        border-top: 1px solid #ededf0;
+        padding-top: 15px;
+        color: #737373;
+        font-size: 14px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Tab Limiter</h1>
+      <p class="subtitle">Control how many tabs you can open in a Firefox window</p>
+    </header>
+
+    <div class="form-group">
+      <div class="setting-title">Maximum Tabs</div>
+      <p class="setting-description">Set the maximum number of tabs allowed in each window. When this limit is reached, new tabs will be automatically closed.</p>
+      
+      <label for="maxTabsInput">Number of allowed tabs per window:</label>
+      <input id="maxTabsInput" type="number" min="1" max="100" />
+      <button id="saveButton">Save Settings</button>
+      
+      <p id="status"></p>
+    </div>
+
+    <div class="tips-section">
+      <h2>Tips for Using Tab Limiter</h2>
+      
+      <div class="tip">
+        <div class="tip-title">Finding Your Sweet Spot</div>
+        <p>Most users find that 5-10 tabs per window provides a good balance between productivity and browser performance.</p>
+      </div>
+      
+      <div class="tip">
+        <div class="tip-title">Multiple Windows</div>
+        <p>Need more organization? Consider using multiple Firefox windows with different tab limits for different tasks.</p>
+      </div>
+      
+      <div class="tip">
+        <div class="tip-title">When You Need More Tabs</div>
+        <p>The settings page can always be opened, even when you've reached your tab limit.</p>
+      </div>
+    </div>
+
+    <footer>
+      <p>Tab Limiter v1.0.0 | Made with ♥ for Firefox</p>
+    </footer>
+
+    <script src="options.js"></script>
+  </body>
+</html>
