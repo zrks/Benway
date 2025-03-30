@@ -152,12 +152,12 @@ function createSettingsButton() {
     
     // Send the message to open options page with error handling
     browser.runtime.sendMessage({ action: 'openSettings' })
-      .catch(error => {
+      .catch(() => {
         // Try direct approach as fallback
         try {
           browser.runtime.openOptionsPage();
         } catch (err) {
-          console.error("Error opening settings page:", err);
+          // Fail silently
         }
       });
   };

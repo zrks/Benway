@@ -71,7 +71,7 @@ function setupEventListeners() {
  */
 function openSettings() {
   browser.runtime.openOptionsPage()
-    .catch(error => {
-      console.error("Error opening settings page:", error);
+    .catch(() => {
+      // Fail silently - user will see nothing happened
     });
 }

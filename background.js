@@ -26,9 +26,9 @@ function loadMaxTabsFromStorage() {
     } else {
       maxTabs = DEFAULT_MAX_TABS; // fallback
     }
-  }).catch(error => {
-    console.error("Error loading tab limit from storage:", error);
-    maxTabs = DEFAULT_MAX_TABS; // fallback on error
+  }).catch((err) => {
+    console.error("Error loading maxTabs from storage:", err);
+    maxTabs = DEFAULT_MAX_TABS;
   });
 }
 
@@ -36,43 +36,59 @@ function loadMaxTabsFromStorage() {
  * Check if a tab is loading the options page
  */
 function isOptionsPage(tab) {
-  return tab.url === optionsUrl || 
-         tab.pendingUrl === optionsUrl || 
-         (tab.url && tab.url.startsWith(optionsUrl));
+  const url = tab.url || tab.pendingUrl || "";
+  return url.startsWith(optionsUrl);
 }
 
 /**
- * Show a notification when tab limit is reached
+ * Show fallback notification
+ */
+function showBasicNotification() {
+  browser.notifications.create({
+    "type": "basic",
+    "title": "Tab Limit Reached",
+    "message": `You've reached the maximum of ${maxTabs} tabs in this window.`
+  });
+}
+
+/**
+ * Show a notification or message when tab limit is reached
  */
 async function showLimitReachedPopup() {
   try {
-    // Get the active tab in the current window
     const activeTabs = await browser.tabs.query({ active: true, currentWindow: true });
     if (activeTabs.length === 0) return;
-    
+
     const activeTab = activeTabs[0];
-    
-    // Try to send a message to the content script
+
     try {
-      await browser.tabs.sendMessage(activeTab.id, { 
+      await browser.tabs.sendMessage(activeTab.id, {
         action: 'showLimitPopup',
         maxTabs: maxTabs
       });
-    } catch (error) {
-      // Fallback to notification if content script communication fails
-      browser.notifications.create({
-        "type": "basic",
-        "title": "Tab Limit Reached",
-        "message": `You've reached the maximum of ${maxTabs} tabs in this window.`
-      });
+    } catch {
+      showBasicNotification();
     }
   } catch (err) {
-    // Fallback to notification if there's any error
-    browser.notifications.create({
-      "type": "basic",
-      "title": "Tab Limit Reached",
-      "message": `You've reached the maximum of ${maxTabs} tabs in this window.`
-    });
+    console.error("Error showing tab limit popup:", err);
+    showBasicNotification();
+  }
+}
+
+/**
+ * Open options page with flag tracking
+ */
+async function handleOpenSettings() {
+  openingOptionsPage = true;
+  await new Promise(resolve => setTimeout(resolve, 100));
+  try {
+    await browser.runtime.openOptionsPage();
+    setTimeout(() => {
+      openingOptionsPage = false;
+    }, 1000);
+  } catch (err) {
+    console.error("Failed to open options page:", err);
+    openingOptionsPage = false;
   }
 }
 
@@ -90,53 +106,29 @@ browser.storage.onChanged.addListener((changes, area) => {
 /**
  * Listen for messages from the popup and content scripts
  */
-browser.runtime.onMessage.addListener((message, sender, sendResponse) => {
+browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'openSettings') {
-    // Set flag before opening options page
-    openingOptionsPage = true;
-    
-    // Use a slight delay to ensure the flag is set before the tab is created
-    setTimeout(() => {
-      browser.runtime.openOptionsPage().then(() => {
-        // Reset flag after a short delay to allow the tab to be fully created
-        setTimeout(() => {
-          openingOptionsPage = false;
-        }, 1000);
-      }).catch(error => {
-        console.error("Error opening options page:", error);
-        openingOptionsPage = false;
-      });
-    }, 100);
-    
-    return Promise.resolve({success: true});
-  }
-  
-  if (message.action === 'getMaxTabs') {
-    return Promise.resolve({maxTabs: maxTabs});
+    handleOpenSettings();
+    return Promise.resolve({ success: true });
   }
 
-  return false; // For other messages
+  if (message.action === 'getMaxTabs') {
+    return Promise.resolve({ maxTabs: maxTabs });
+  }
+
+  return false;
 });
 
 /**
  * Listen for tab updates
  */
 browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-  // If this tab is being checked for the options page and now has a URL
   if (pendingTabChecks.has(tabId) && changeInfo.url) {
     pendingTabChecks.delete(tabId);
-    
-    // Check if it's not the options page
-    if (!isOptionsPage(tab)) {
-      // Don't close if we're in the process of opening the options page
-      if (openingOptionsPage) {
-        return;
-      }
-      
-      // Count the tabs in the window
+
+    if (!isOptionsPage(tab) && !openingOptionsPage) {
       browser.tabs.query({ windowId: tab.windowId }).then(tabs => {
         if (tabs.length > maxTabs) {
-          // Close this tab as it's over the limit and not the options page
           browser.tabs.remove(tabId);
           showLimitReachedPopup();
         }
@@ -150,29 +142,17 @@ browser.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
  */
 browser.tabs.onCreated.addListener(async (tab) => {
   try {
-    // If we're explicitly opening the options page, allow it
-    if (openingOptionsPage) {
-      return;
-    }
-    
-    // Count only tabs in the current window
+    if (openingOptionsPage) return;
+
     const windowTabs = await browser.tabs.query({ windowId: tab.windowId });
-    const windowTabCount = windowTabs.length;
-    
-    // If we're already at/over limit, we need to check if this is an options page
-    if (windowTabCount > maxTabs) {
-      // If tab URL is available and it's the options page, allow it
-      if (isOptionsPage(tab)) {
-        return; // Allow the options page to open
-      }
-      
-      // If URL is not yet available, mark this tab for later checking
+    if (windowTabs.length > maxTabs) {
+      if (isOptionsPage(tab)) return;
+
       if (!tab.url) {
         pendingTabChecks.add(tab.id);
-        return; // Wait for the URL to become available
+        return;
       }
-      
-      // Otherwise, close the tab and show notification
+
       await browser.tabs.remove(tab.id);
       showLimitReachedPopup();
     }

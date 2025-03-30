@@ -22,6 +22,6 @@
     "productivity"
   ],
   "devDependencies": {
-    "web-ext": "^7.0.0"
+    "web-ext": "^8.5.0"
   }
-} 
+}
