@@ -63,7 +63,7 @@ async function showLimitReachedPopup() {
 
     try {
       await browser.tabs.sendMessage(activeTab.id, {
-        action: 'showLimitPopup',
+        action: 'triggerQuizChallenge',
         maxTabs: maxTabs
       });
     } catch {
@@ -107,6 +107,18 @@ browser.storage.onChanged.addListener((changes, area) => {
  * Listen for messages from the popup and content scripts
  */
 browser.runtime.onMessage.addListener((message) => {
+  if (message.action === 'quizPassed') {
+    // Allow 1 more tab this time
+    maxTabs += 1;
+  
+    // Optionally reset it after a delay to avoid permanent cheating
+    setTimeout(() => {
+      loadMaxTabsFromStorage();
+    }, 30000);
+    
+    return Promise.resolve({ success: true });
+  }
+
   if (message.action === 'openSettings') {
     handleOpenSettings();
     return Promise.resolve({ success: true });

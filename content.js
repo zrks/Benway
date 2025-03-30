@@ -162,4 +162,52 @@ function createSettingsButton() {
       });
   };
   return settingsBtn;
-} 
+}
+
+browser.runtime.onMessage.addListener((message) => {
+  if (message.action === 'triggerQuizChallenge') {
+    showQuizChallenge();
+    return Promise.resolve({ success: true });
+  }
+});
+
+function showQuizChallenge() {
+  if (document.getElementById('quiz-challenge')) return;
+
+  const container = document.createElement('div');
+  container.id = 'quiz-challenge';
+  container.style.cssText = `
+    position: fixed; top: 20px; right: 20px; width: 300px; background: white;
+    border: 2px solid #4caf50; padding: 20px; z-index: 2147483647; border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  `;
+
+  const question = document.createElement('p');
+  question.textContent = "What is 5 + 3?";
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.placeholder = 'Your answer';
+  input.style = 'width: 100%; padding: 6px; margin-top: 10px;';
+
+  const submit = document.createElement('button');
+  submit.textContent = 'Submit';
+  submit.style = 'margin-top: 10px; width: 100%; padding: 8px; background: #0060df; color: white; border: none; border-radius: 4px; cursor: pointer;';
+
+  const message = document.createElement('div');
+  message.style = 'margin-top: 10px; color: red; font-size: 13px;';
+
+  submit.onclick = () => {
+    if (input.value.trim() === '8') {
+      message.textContent = 'Correct! Opening tab...';
+      input.disabled = true;
+      submit.disabled = true;
+      browser.runtime.sendMessage({ action: 'quizPassed' });
+      setTimeout(() => container.remove(), 1500);
+    } else {
+      message.textContent = 'Wrong answer. Try again!';
+    }
+  };
+
+  container.append(question, input, submit, message);
+  document.body.appendChild(container);
+}
