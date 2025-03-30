@@ -198,7 +198,7 @@ function showQuizChallenge() {
 
   submit.onclick = () => {
     if (input.value.trim() === '8') {
-      message.textContent = 'Correct! You can open tab now!';
+      message.textContent = 'Correct! You can open one more tab now!';
       input.disabled = true;
       submit.disabled = true;
       browser.runtime.sendMessage({ action: 'quizPassed' });
