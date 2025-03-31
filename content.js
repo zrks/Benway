@@ -141,7 +141,9 @@ function createSettingsButton() {
     browser.runtime.sendMessage({ action: 'openSettings' }).catch(() => {
       try {
         browser.runtime.openOptionsPage();
-      } catch (err) {}
+      } catch (err) {
+        console.warn("Failed to open settings page directly:", err);
+      }
     });
   };
   return settingsBtn;
