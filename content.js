@@ -5,13 +5,14 @@
  * displaying the limit reached notification to the user.
  */
 
-/**
- * Listen for messages from the background script
- */
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'showLimitPopup') {
     showDirectNotification(message.maxTabs);
     return Promise.resolve({success: true});
+  }
+  if (message.action === 'triggerQuizChallenge') {
+    showReactionGameChallenge();
+    return Promise.resolve({ success: true });
   }
 });
 
@@ -20,33 +21,23 @@ browser.runtime.onMessage.addListener((message) => {
  * @param {number} maxTabs - The current tab limit
  */
 function showDirectNotification(maxTabs) {
-  // Don't show multiple notifications
   if (document.getElementById('tab-limit-notification')) {
     return;
   }
-  
-  // Create notification container
+
   const notification = createNotificationElement();
-  
-  // Add animation style
   addNotificationStyle();
-  
-  // Create notification content
   const title = createTitleElement();
   const message = createMessageElement(maxTabs);
   const closeBtn = createCloseButton();
   const settingsBtn = createSettingsButton();
-  
-  // Assemble the notification
+
   notification.appendChild(closeBtn);
   notification.appendChild(title);
   notification.appendChild(message);
   notification.appendChild(settingsBtn);
-  
-  // Add to the document
   document.body.appendChild(notification);
-  
-  // Auto-remove after 10 seconds
+
   setTimeout(() => {
     const notif = document.getElementById('tab-limit-notification');
     if (notif) notif.remove();
@@ -56,7 +47,6 @@ function showDirectNotification(maxTabs) {
 /**
  * Helper Functions for Creating Notification Elements
  */
-
 function createNotificationElement() {
   const notification = document.createElement('div');
   notification.id = 'tab-limit-notification';
@@ -147,19 +137,160 @@ function createSettingsButton() {
     cursor: pointer;
   `;
   settingsBtn.onclick = function() {
-    // First remove the notification to avoid multiple clicks
     document.getElementById('tab-limit-notification').remove();
-    
-    // Send the message to open options page with error handling
-    browser.runtime.sendMessage({ action: 'openSettings' })
-      .catch(() => {
-        // Try direct approach as fallback
-        try {
-          browser.runtime.openOptionsPage();
-        } catch (err) {
-          // Fail silently
-        }
-      });
+    browser.runtime.sendMessage({ action: 'openSettings' }).catch(() => {
+      try {
+        browser.runtime.openOptionsPage();
+      } catch (err) {
+        console.warn("Failed to open settings page directly:", err);
+      }
+    });
   };
   return settingsBtn;
-} 
+}
+
+function showReactionGameChallenge() {
+  if (document.getElementById('reaction-challenge')) return;
+
+  const container = document.createElement('div');
+  container.id = 'reaction-challenge';
+  container.style.cssText = `
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 320px;
+    padding: 20px;
+    background: white;
+    border: 2px solid #4caf50;
+    border-radius: 6px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    font-family: sans-serif;
+    z-index: 2147483647;
+    text-align: center;
+  `;
+
+  const instruction = document.createElement('p');
+  instruction.textContent = "Click the box as fast as you can when it turns green!";
+  instruction.style.marginBottom = '10px';
+
+  const box = document.createElement('div');
+  box.style.cssText = `
+    width: 100%;
+    height: 100px;
+    background-color: red;
+    margin: 10px 0;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  `;
+
+  const message = document.createElement('p');
+  message.style = 'font-size: 14px; color: #333; margin-top: 10px;';
+
+  let hasTurnedGreen = false;
+  let startTime;
+  const history = [];
+
+  const stats = document.createElement('div');
+  stats.style = 'margin-top: 10px; font-size: 12px; color: #555;';
+  const updateStats = () => {
+    if (history.length === 0) {
+      stats.textContent = '';
+      return;
+    }
+    const recent = history.slice(-5).map(ms => `${ms}ms`).join(', ');
+    stats.textContent = `Recent: ${recent}`;
+  };
+
+  const retryBtn = document.createElement('button');
+  retryBtn.textContent = 'Retry';
+  retryBtn.style = `
+    margin-top: 10px;
+    padding: 6px 10px;
+    background: #ff9800;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 13px;
+    cursor: pointer;
+  `;
+  retryBtn.onclick = () => {
+    retryBtn.style.display = 'none';
+    resetGame();
+  };
+
+  const resetBox = () => {
+    box.style.backgroundColor = 'red';
+    box.classList.remove('pulse');
+    hasTurnedGreen = false;
+    message.textContent = 'Too soon! Wait for green.';
+    retryBtn.style.display = 'inline-block';
+  };
+
+  const onBoxClick = () => {
+    if (!hasTurnedGreen) {
+      resetBox();
+      return;
+    }
+
+    const reactionTime = Date.now() - startTime;
+    history.push(reactionTime);
+    updateStats();
+
+    if (reactionTime <= 600) {
+      message.textContent = `Great! Reaction Time: ${reactionTime}ms.`;
+      box.style.backgroundColor = '#4caf50';
+      box.style.cursor = 'default';
+      box.onclick = null;
+      retryBtn.style.display = 'none';
+      browser.runtime.sendMessage({ action: 'quizPassed' });
+      setTimeout(() => container.remove(), 2500);
+    } else {
+      message.textContent = `Too slow (${reactionTime}ms). Try again!`;
+      retryBtn.style.display = 'inline-block';
+    }
+  };
+
+  box.onclick = onBoxClick;
+
+  const resetGame = () => {
+    box.style.backgroundColor = 'red';
+    box.style.cursor = 'pointer';
+    box.classList.remove('pulse');
+    message.textContent = 'Wait for green...';
+    hasTurnedGreen = false;
+    startTime = null;
+
+    const delay = 1500 + Math.random() * 1500;
+    setTimeout(() => {
+      box.style.backgroundColor = 'green';
+      box.classList.add('pulse');
+      hasTurnedGreen = true;
+      startTime = Date.now();
+    }, delay);
+  };
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.05); }
+      100% { transform: scale(1); }
+    }
+    .pulse {
+      animation: pulse 0.6s ease-in-out infinite;
+    }
+  `;
+  document.head.appendChild(style);
+
+  container.appendChild(instruction);
+  container.appendChild(box);
+  container.appendChild(message);
+  container.appendChild(retryBtn);
+  container.appendChild(stats);
+  document.body.appendChild(container);
+
+  retryBtn.style.display = 'none';
+  updateStats();
+  resetGame();
+}
