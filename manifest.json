@@ -1,7 +1,7 @@
 {
     "manifest_version": 2,
-    "name": "Tab Limiter",
-    "version": "1.0.0",
+    "name": "Benwey",
+    "version": "0.0.2",
     "description": "Limits the number of tabs you can open in a window to help manage your browser performance and workflow.",
     "author": "zrks",
     "icons": {
@@ -30,7 +30,7 @@
     },
     "browser_action": {
       "default_popup": "popup.html",
-      "default_title": "Tab Limiter",
+      "default_title": "Benwey",
       "default_icon": {
         "16": "icons/icon-16.png",
         "32": "icons/icon-32.png",
@@ -39,8 +39,8 @@
     },
     "browser_specific_settings": {
       "gecko": {
-        "id": "tab-limiter@yourdomain.com",
-        "strict_min_version": "57.0"
+        "id": "benwey@zrks.com",
+        "strict_min_version": "58.0"
       }
     }
   }
