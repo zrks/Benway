@@ -1,14 +1,15 @@
-# Tab Limiter
+# Benway Tab Limiter
 
-A Firefox extension that helps you manage browser performance and organization by limiting the number of tabs open in each window.
+Welcome to the whimsical world of Benway's Tab Limiter, a Firefox extension that helps you navigate the chaotic landscape of browser tabs while keeping your performance and organization in check. Embrace the madness and limit the number of tabs open in each window!
 
 ## Features
 
-- **Set a custom tab limit** for each browser window
-- **Automatic tab management** - prevents opening more tabs than your set limit
-- **Visual notifications** when you reach your tab limit
-- **Settings page access** - always accessible even when at tab limit
-- **Simple interface** - set it and forget it
+- **Enforce tab limits per window** - Keep your browser from spiraling into a tabbed abyss.
+- **Reaction-time mini-game challenge** - Unlock a temporary extra tab with your swift reflexes!
+- **Visual notifications** - When you reach your tab limit, receive alert that remind you of your boundaries.
+- **Settings page access** - Always at your fingertips, even when you’ve reached your tab limit, because who doesn’t love a good configuration?
+- **Simple interface** - Set it, forget it, and let unfold (within limits)!
+- **Modern development practices** - Built using ESLint for code quality and GitHub Actions for continuous integration.
 
 ## Installation
 
@@ -30,29 +31,29 @@ A Firefox extension that helps you manage browser performance and organization b
 
 ### Setting Your Tab Limit
 
-1. Click the Tab Limiter icon in your toolbar
+1. Click the Benway Tab Limiter icon in your toolbar
 2. Click "Open Settings"
 3. Enter your desired maximum tabs per window
 4. Click "Save"
 
 ### What Happens When You Reach Your Limit
 
-When you try to open more tabs than your set limit:
+When you attempt to breach the tab limit:
 
-1. The new tab will automatically close
-2. A notification will appear explaining that you've reached your limit
-3. You'll have the option to open settings to increase your limit
+1. The new tab will gracefully close, like a whisper in the night.
+2. A notification will pop up, playfully reminding you that you've reached your limit.
+3. You’ll have the option to open settings and increase your limit, or dive into the reaction-time mini-game challenge for a temporary reprieve and a chance to track your stats!
 
 ### Default Settings
 
-- Default tab limit: 3 tabs per window
+- Default tab limit: 3 tabs per window - because even in chaos, a little order goes a long way.
 
 ## Privacy
 
-Tab Limiter respects your privacy:
-- No data is collected or sent anywhere
-- All settings are stored locally in your browser
-- No tracking or analytics
+Benway's Tab Limiter respects your privacy:
+- No data is collected or sent anywhere, keeping your secrets safe.
+- All settings are stored locally in your browser, like a hidden stash of treasures.
+- No tracking or analytics, just you and your tabs in a beautiful dance.
 
 ## License
 
@@ -60,8 +61,8 @@ This project is licensed under the Mozilla Public License 2.0 - see the [LICENSE
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a pull request.
+Contributions are welcome! Please feel free to submit a pull request and join the adventure.
 
 ## Support
 
-Having issues or want to suggest features? Please file an issue on the GitHub repository. 
+Encountering issues or have a feature to suggest? Please file an issue on the GitHub repository.
