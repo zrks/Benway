@@ -5,6 +5,8 @@
  * in each Firefox window and showing notifications when the limit is reached.
  */
 
+// import browser from "webextension-polyfill";
+
 // Configuration
 const DEFAULT_MAX_TABS = 3;
 let maxTabs = DEFAULT_MAX_TABS;

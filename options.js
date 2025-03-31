@@ -1,3 +1,5 @@
+// import browser from "webextension-polyfill";
+
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", restoreOptions);
 

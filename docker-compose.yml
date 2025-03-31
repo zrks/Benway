@@ -24,7 +24,7 @@ services:
     image: nginx
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.nginx.rule=Host(`benwey.zrks.xyz`)"
+      - "traefik.http.routers.nginx.rule=Host(`benway.zrks.xyz`)"
       - "traefik.http.routers.nginx.entrypoints=websecure"
       - "traefik.http.routers.nginx.tls.certresolver=letsencrypt"
       - "traefik.http.services.nginx.loadbalancer.server.port=80"
