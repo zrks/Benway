@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Benwey - Mindful Tab Consumption</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Courier New', Courier, monospace;
+      background: linear-gradient(135deg, #0f0f0f, #1a1a1a);
+      color: #f4f4f4;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+    h1 {
+      font-size: 3rem;
+      letter-spacing: 2px;
+      color: #ff0040;
+      text-shadow: 0 0 10px #ff0040;
+      animation: flicker 3s infinite;
+    }
+    @keyframes flicker {
+      0%, 18%, 22%, 25%, 53%, 57%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.3;
+      }
+    }
+    p {
+      max-width: 600px;
+      text-align: center;
+      line-height: 1.6;
+      font-size: 1.2rem;
+      margin: 20px;
+    }
+    .features {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-top: 30px;
+    }
+    .feature {
+      background-color: rgba(255, 255, 255, 0.05);
+      border-left: 4px solid #ff0040;
+      padding: 1rem;
+      width: 80%;
+      max-width: 500px;
+      transition: transform 0.3s ease-in-out;
+    }
+    .feature:hover {
+      transform: scale(1.03);
+    }
+    .cta {
+      margin-top: 40px;
+      background-color: #ff0040;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      border-radius: 5px;
+      text-shadow: 0 0 5px #000;
+      transition: background-color 0.2s ease-in-out;
+    }
+    .cta:hover {
+      background-color: #ff3366;
+    }
+  </style>
+</head>
+<body>
+  <h1>Benwey</h1>
+  <p>
+    Open tabs with intention. Benwey is a browser extension that challenges your reflexes before allowing a new tab. Reclaim your focus with every click.
+  </p>
+  <div class="features">
+    <div class="feature">🧠 Mini reaction game before each new tab</div>
+    <div class="feature">🚪 Soft-limit for open tabs to prevent overload</div>
+    <div class="feature">🧘 Designed for mindful browsing</div>
+  </div>
+  <button class="cta">Install Benwey on Firefox</button>
+</body>
+</html>
+
