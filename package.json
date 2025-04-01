@@ -9,7 +9,7 @@
     "build": "web-ext build",
     "lint": "web-ext lint",
     "start": "web-ext run",
-    "pack": "zip -r tab-limiter-v$npm_package_version.zip . -x '*.git*' 'node_modules/*' 'tab-limiter-v$npm_package_version.zip'"
+    "pack": "zip -r tab-limiter-v$npm_package_version.zip . -x '*.git*' 'node_modules/*' 'Benway-v$npm_package_version.zip'"
   },
   "repository": {
     "type": "git",
