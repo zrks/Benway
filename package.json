@@ -1,8 +1,8 @@
 {
-  "name": "tab-limiter",
-  "version": "0.0.1",
+  "name": "Benway",
+  "version": "0.0.3",
   "description": "Firefox extension that limits the number of tabs open in each window",
-  "author": "Your Name",
+  "author": "zrks",
   "license": "MPL-2.0",
   "private": true,
   "scripts": {
@@ -13,7 +13,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/yourusername/tab-limiter"
+    "url": "https://github.com/zrks/Benway"
   },
   "keywords": [
     "firefox",

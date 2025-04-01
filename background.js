@@ -1,5 +1,5 @@
 /**
- * Tab Limiter - Background Script
+ * Benway - Background Script
  * 
  * This script handles the core functionality of limiting the number of tabs
  * in each Firefox window and showing notifications when the limit is reached.

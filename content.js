@@ -1,5 +1,5 @@
 /**
- * Tab Limiter - Content Script
+ * Benway - Content Script
  * 
  * This script is injected into web pages and is responsible for 
  * displaying the limit reached notification to the user.

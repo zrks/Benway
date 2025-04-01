@@ -1,5 +1,5 @@
 /**
- * Tab Limiter - Popup Script
+ * Benway - Popup Script
  * 
  * This script handles the functionality of the browser action popup
  * that displays current tab count and provides access to settings.
