@@ -21,7 +21,7 @@ services:
       - ./letsencrypt:/letsencrypt
 
   nginx:
-    image: nginx
+    image: zrks/benway-web:latest
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.nginx.rule=Host(`benway.zrks.xyz`)"

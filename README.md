@@ -15,8 +15,8 @@ Welcome to the whimsical world of Benway's Tab Limiter, a Firefox extension that
 
 ### From Firefox Add-ons (AMO)
 
-1. Visit the [Benwey page](https://benwey.zrks.xyz/)
-2. Click "Install Benwey on Firefox"
+1. Visit the [Benway page](https://benway.zrks.xyz/)
+2. Click "Install Benway on Firefox"
 3. Follow the prompts to install
 
 ### Manual Installation (Development)
