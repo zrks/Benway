@@ -5,6 +5,8 @@
  * displaying the limit reached notification to the user.
  */
 
+import browser from "webextension-polyfill";
+
 browser.runtime.onMessage.addListener((message) => {
   if (message.action === 'showLimitPopup') {
     showDirectNotification(message.maxTabs);
@@ -47,6 +49,7 @@ function showDirectNotification(maxTabs) {
 /**
  * Helper Functions for Creating Notification Elements
  */
+// (All the helper functions remain the same as the original)
 function createNotificationElement() {
   const notification = document.createElement('div');
   notification.id = 'tab-limit-notification';
@@ -150,6 +153,9 @@ function createSettingsButton() {
 }
 
 function showReactionGameChallenge() {
+  // Keeping the same implementation as before, just making sure
+  // browser is imported from the polyfill
+  
   if (document.getElementById('reaction-challenge')) return;
 
   const container = document.createElement('div');

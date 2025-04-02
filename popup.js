@@ -5,7 +5,7 @@
  * that displays current tab count and provides access to settings.
  */
 
-// import browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 
 document.addEventListener("DOMContentLoaded", () => {
   updateTabStatus();

@@ -2,10 +2,10 @@
  * Benway - Background Script
  * 
  * This script handles the core functionality of limiting the number of tabs
- * in each Firefox window and showing notifications when the limit is reached.
+ * in each browser window and showing notifications when the limit is reached.
  */
 
-// import browser from "webextension-polyfill";
+import browser from "webextension-polyfill";
 
 // Configuration
 const DEFAULT_MAX_TABS = 3;
