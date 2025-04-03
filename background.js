@@ -6,7 +6,6 @@
  */
 
 // import browser from "webextension-polyfill";
-
 // Configuration
 const DEFAULT_MAX_TABS = 3;
 let maxTabs = DEFAULT_MAX_TABS;
@@ -19,20 +18,41 @@ let openingOptionsPage = false;
 const optionsUrl = browser.runtime.getURL("options.html");
 
 /**
- * Load tab limit from storage
+ * Load tab limit from storage (asynchronously)
  */
-function loadMaxTabsFromStorage() {
-  browser.storage.local.get("maxTabs").then((result) => {
+async function loadMaxTabsFromStorage() {
+  try {
+    const result = await browser.storage.local.get("maxTabs");
     if (result.maxTabs !== undefined && !isNaN(result.maxTabs)) {
       maxTabs = result.maxTabs;
     } else {
-      maxTabs = DEFAULT_MAX_TABS; // fallback
+      maxTabs = DEFAULT_MAX_TABS;
     }
-  }).catch((err) => {
+  } catch (err) {
     console.error("Error loading maxTabs from storage:", err);
     maxTabs = DEFAULT_MAX_TABS;
-  });
+  }
 }
+
+/**
+ * Example usage of maxTabs after it's guaranteed to be loaded
+ */
+async function initExtension() {
+  await loadMaxTabsFromStorage();
+
+  // Safe to use maxTabs here
+  console.log("Max tabs loaded:", maxTabs);
+
+  // Example logic (you'd replace this with actual tab-handling logic)
+  const tabs = await browser.tabs.query({});
+  if (tabs.length > maxTabs) {
+    console.warn(`You have ${tabs.length} tabs open, exceeding the limit of ${maxTabs}.`);
+    // Additional logic here...
+  }
+}
+
+// Initialize the extension
+initExtension();
 
 /**
  * Check if a tab is loading the options page
