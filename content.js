@@ -237,7 +237,7 @@ function showReactionGameChallenge() {
     history.push(reactionTime);
     updateStats();
 
-    if (reactionTime <= 600) {
+    if (reactionTime <= 700) {
       message.textContent = `Great! Reaction Time: ${reactionTime}ms.`;
       box.style.backgroundColor = '#4caf50';
       box.style.cursor = 'default';

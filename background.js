@@ -8,7 +8,7 @@
 // import browser from "webextension-polyfill";
 
 // Configuration
-const DEFAULT_MAX_TABS = 3;
+const DEFAULT_MAX_TABS = 12;
 let maxTabs = DEFAULT_MAX_TABS;
 
 // State tracking
