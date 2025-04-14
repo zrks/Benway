@@ -36,6 +36,7 @@ resource "digitalocean_droplet" "cheap_droplet" {
 
   tags = ["web", "dev"]
 
+  user_data = file("${path.module}/init.sh")
   # user_data = templatefile("${path.module}/cloud-init.tpl", {
   #   vault_addr      = "https://<your-vault-name>.vault.hashicorp.cloud"
   #   vault_namespace = "admin"
